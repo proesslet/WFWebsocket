@@ -21,17 +21,24 @@ print(result)
 
 # Create loop to continuously listen for data while the socket connection is open
 while (ws.connected):
+
+    # Loop to limit how many times it runs for testing
     x=0
     while (x < 5):
+        # Receive data from socket and store in result as dictionary
         result = ws.recv()
         result = json.loads(result)
 
+        # Get the data we want to see from the dictionary
         obs_type = result['type']
         timestamp = datetime.utcfromtimestamp(result['obs'][0][0]).strftime('%Y-%m-%d %H:%M:%S')
         temp = result['obs'][0][7]
+
+        # Print the results to the console as a single string
         print("New Observation:")
         print("Type: " + obs_type + " Time: " + timestamp + " Temp: " + str(temp))
 
+        # Create string and write it to a .txt file
         string = "Type: " + obs_type + " Time: " + timestamp + " Temp: " + str(temp)
         with open("tempest.txt", "a") as data_file:
             data_file.write(string + '\n')

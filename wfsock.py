@@ -23,7 +23,7 @@ print(result)
 while (ws.connected):
 
     # Loop to limit how many times it runs for testing
-    #x=0
+    x=0
     #while (x < 50):
     print("Reading data... " + str(x))
     # Receive data from socket and store in result as dictionary
@@ -56,7 +56,7 @@ while (ws.connected):
         with open("tempest.txt", "a") as data_file:
             data_file.write(string + '\n')
 
-        #x=x+1
+        x=x+1
     # Stop listening and close the socket connection
     ws.send('{"type":"listen_stop","device_id":' + tempest_ID + ',"id":"2098388936"}')
     ws.close()

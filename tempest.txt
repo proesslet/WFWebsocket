@@ -1,0 +1,1 @@
+Type: obs_st Time: 2022-11-23 02:19:04 Temp: 8.1

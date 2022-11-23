@@ -24,37 +24,41 @@ while (ws.connected):
 
     # Loop to limit how many times it runs for testing
     x=0
-    #while (x < 50):
-    print("Reading data... " + str(x))
-    # Receive data from socket and store in result as dictionary
-    result = ws.recv()
-    result = json.loads(result)
-    # Check obs type and get the corresponding data
-    obs_type = result['type']
-    # Precipitation Event
-    if obs_type == 'evt_precip':
-        # Print time and rain message
-        raintime = datetime.now()
-        raintime = raintime.strftime("%H:%M:%S")
-        print("Type: " + obs_type + " Time: " + raintime + " Precipitation event detected")
-    # Lightning Strike
-    if obs_type == 'evt_strike':
-        # Print time and lightning message
-        lightningtime = datetime.now()
-        lightningtime = lightningtime.strftime("%H:%M:%S")
-        print("Type: " + obs_type + " Time: " + lightningtime + " Lightning strike detected")
-    # Tempest Data
-    if obs_type == 'obs_st':
-        # Get the data we want to see from the dictionary
-        timestamp = datetime.utcfromtimestamp(result['obs'][0][0]).strftime('%Y-%m-%d %H:%M:%S')
-        localtime = datetime.fromtimestamp(result['obs'][0][0]).strftime('%Y-%m-%d %H:%M:%S')
-        temp = result['obs'][0][7]
-        # Print the results to the console as a single string
-        
-        # Create string and write it to a .txt file
-        string = "Type: " + obs_type + " Time: " + timestamp + " Temp: " + str(temp)
-        with open("tempest.txt", "a") as data_file:
-            data_file.write(string + '\n')
+    # Run loop 4320 times (3 days)
+    while (x < 4320):
+        print("Reading data... " + str(x))
+        # Receive data from socket and store in result as dictionary
+        result = ws.recv()
+        result = json.loads(result)
+
+        # Check obs type and get the corresponding data
+        obs_type = result['type']
+        # Precipitation Event
+        if obs_type == 'evt_precip':
+            # Print time and rain message
+            raintime = datetime.now()
+            raintime = raintime.strftime("%H:%M:%S")
+            print("Type: " + obs_type + " Time: " + raintime + " Precipitation event detected")
+        # Lightning Strike
+        if obs_type == 'evt_strike':
+            # Print time and lightning message
+            lightningtime = datetime.now()
+            lightningtime = lightningtime.strftime("%H:%M:%S")
+            print("Type: " + obs_type + " Time: " + lightningtime + " Lightning strike detected")
+        # Tempest Data
+        if obs_type == 'obs_st':
+            # Get the data we want to see from the dictionary
+            timestamp = datetime.utcfromtimestamp(result['obs'][0][0]).strftime('%Y-%m-%d %H:%M:%S')
+            localtime = datetime.fromtimestamp(result['obs'][0][0]).strftime('%Y-%m-%d %H:%M:%S')
+            temp = result['obs'][0][7]
+
+            # Print the results to the console as a single string
+            
+
+            # Create string and write it to a .txt file
+            string = "Type: " + obs_type + " Time: " + timestamp + " Temp: " + str(temp)
+            with open("tempest.txt", "a") as data_file:
+                data_file.write(string + '\n')
 
         x=x+1
     # Stop listening and close the socket connection

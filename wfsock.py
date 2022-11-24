@@ -20,17 +20,14 @@ result = json.loads(result)
 print(result)
 
 # Create loop to continuously listen for data while the socket connection is open
-while (ws.connected):
-
-    # Loop to limit how many times it runs for testing
-    x=0
-    # Run loop 4320 times (3 days)
-    while (x < 4320):
+x=0
+while (True):
+    try:
+        
         print("Reading data... " + str(x))
         # Receive data from socket and store in result as dictionary
         result = ws.recv()
         result = json.loads(result)
-
         # Check obs type and get the corresponding data
         obs_type = result['type']
         # Precipitation Event
@@ -51,18 +48,18 @@ while (ws.connected):
             timestamp = datetime.utcfromtimestamp(result['obs'][0][0]).strftime('%Y-%m-%d %H:%M:%S')
             localtime = datetime.fromtimestamp(result['obs'][0][0]).strftime('%Y-%m-%d %H:%M:%S')
             temp = result['obs'][0][7]
-
             # Print the results to the console as a single string
-            
 
             # Create string and write it to a .txt file
             # Type,UTC Timestamp,Local Timestamp, Temperature
             string = obs_type + "," + timestamp + "," + localtime + "," + str(temp)
             with open("tempest.txt", "a") as data_file:
                 data_file.write(string + '\n')
-
         x=x+1
-    # Stop listening and close the socket connection
-    ws.send('{"type":"listen_stop","device_id":' + tempest_ID + ',"id":"2098388936"}')
-    ws.close()
-    print("Socket connection closed")
+    except KeyboardInterrupt:
+        print("Closing socket connection...")
+        ws.close()
+        break
+    except Exception as e:
+        print("Error: " + str(e))
+        break

@@ -56,7 +56,8 @@ while (ws.connected):
             
 
             # Create string and write it to a .txt file
-            string = "Type: " + obs_type + " Time: " + timestamp + " Temp: " + str(temp)
+            # Type,UTC Timestamp,Local Timestamp, Temperature
+            string = obs_type + "," + timestamp + "," + localtime + "," + str(temp)
             with open("tempest.txt", "a") as data_file:
                 data_file.write(string + '\n')
 

@@ -78,7 +78,10 @@ rain_data.pack()
 
 
 def on_error(ws, message):
-    print("Error: " + str(message))
+    # Log error in log file
+    f = open("log.txt", "a")
+    f.write("Error: " + message + "")
+    f.close()
     return
 def on_message(ws, message):
     
@@ -139,16 +142,6 @@ def on_message(ws, message):
             wind_compass = "NW"
         elif wind_direction >= 326.25 and wind_direction < 348.75:
             wind_compass = "NNW"
-
-
-        
-        # Save temperature data to file
-        with open('tempest_data.txt', 'a') as f:
-            f.write(timestamp + "," + str(temp))
-
-        # Print data to console
-        #print("Temp: " + str(temp))
-        #print("Wind Speed: " + str(windspeed))
 
         # Update data on GUI
         last_update.config(text="Last Updated: " + localtime_readable)

@@ -76,13 +76,14 @@ rain_label.pack()
 rain_data = tk.Label(master=rain_frame, text="0", font="Arial 20")
 rain_data.pack()
 
-
+# If 
 def on_error(ws, message):
     # Log error in log file
     f = open("log.txt", "a")
     f.write("Error: " + message + "")
     f.close()
     return
+
 def on_message(ws, message):
     
     result = json.loads(message)

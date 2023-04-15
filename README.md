@@ -7,4 +7,4 @@ This program is a GUI to view live data from a Weatherflow Tempest System.
 
 ## Other Information
 - The settings menu is currently non-functional, but eventually users will be able to change the token, tempest_ID, and units from within the program
-- In addition to displaying live data in a GUI, this program also saves temperature data to a text file for my own purposes. This can be removed or 
+
